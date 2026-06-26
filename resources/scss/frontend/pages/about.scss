@@ -1,0 +1,184 @@
+@import '../variables';
+
+// General about page wrappers
+.about-page {
+    .banner-title {
+        font-family: $font-family-heading;
+        letter-spacing: -1px;
+    }
+
+    .font-number {
+        font-family: $font-family-number;
+    }
+
+    .hover-up {
+        transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        &:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08) !important;
+        }
+    }
+
+    .letter-spacing-1 {
+        letter-spacing: 1px;
+    }
+
+    .letter-spacing-2 {
+        letter-spacing: 2px;
+    }
+
+    .backdrop-blur-md {
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+    }
+}
+
+// Banner styling is loaded globally from common.scss
+
+// Story Section
+.about-story-section {
+    .story-image-grid {
+        .image-box {
+            overflow: hidden;
+            border-radius: 20px;
+            
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.5s ease;
+            }
+            
+            &:hover img {
+                transform: scale(1.05);
+            }
+        }
+        
+        .box-1 {
+            height: 240px;
+        }
+        
+        .box-2 {
+            height: 180px;
+        }
+        
+        .box-3 {
+            height: 200px;
+        }
+        
+        .experience-card {
+            min-height: 220px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            
+            span {
+                font-family: $font-family-heading;
+                line-height: 1;
+            }
+            
+            p {
+                font-weight: 600;
+                line-height: 1.4;
+            }
+        }
+    }
+    
+    .story-content-wrapper {
+        h2 {
+            font-family: $font-family-heading;
+            line-height: 1.2;
+        }
+        
+        p {
+            line-height: 1.8;
+        }
+        
+        .icon {
+            width: 38px;
+            height: 38px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}
+
+// Stats Section
+.about-stats-section {
+    background-color: #f8f9fa;
+    border-top: 1px solid $border-color-soft;
+    border-bottom: 1px solid $border-color-soft;
+    
+    .stat-card {
+        border-radius: 20px;
+        transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        
+        &:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.05);
+        }
+    }
+}
+
+// Chairman Message Section
+.chairman-message-section {
+    .card {
+        border-radius: 24px !important;
+    }
+    
+    .quote-wrapper {
+        p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            font-weight: 500;
+        }
+        
+        .quote-icon {
+            font-family: $font-family-number;
+            font-size: 8rem;
+            top: 25px !important;
+            left: -15px !important;
+        }
+    }
+}
+
+// Vision & Mission Section
+.vision-mission-section {
+    .vision-mission-card {
+        border-radius: 24px;
+        background-color: #ffffff;
+        transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        
+        .icon-wrapper {
+            transition: transform 0.4s ease;
+        }
+        
+        &:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            
+            .icon-wrapper {
+                transform: scale(1.1) rotate(5deg);
+            }
+        }
+    }
+}
+
+// Inquiry styling is loaded globally from home.scss or common.scss
+
+@media (max-width: 991.98px) {
+    .about-story-section {
+        .story-image-grid {
+            margin-bottom: 2rem;
+        }
+    }
+    
+    .chairman-message-section {
+        .position-relative {
+            min-height: 300px !important;
+        }
+    }
+}

@@ -1,0 +1,152 @@
+@import '../variables';
+
+.catalog-section {
+    background-color: #f8f9fa;
+}
+
+// Catalog control filter tabs
+.catalog-filter-btn {
+    border: 2px solid transparent;
+    background-color: white;
+    color: $brand-dark;
+    font-weight: 600;
+    padding: 10px 24px;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    text-decoration: none;
+
+    &:hover {
+        background-color: white;
+        border-color: rgba($brand-primary, 0.3);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+        color: $brand-primary;
+    }
+
+    &.active {
+        background-color: $brand-primary;
+        color: white;
+        box-shadow: 0 8px 25px rgba($brand-primary, 0.35);
+        transform: translateY(-2px);
+    }
+}
+
+// Custom catalog items cards
+.catalog-item-card {
+    background-color: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+    border: 1px solid rgba(0,0,0,0.02);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+    .card-img-wrapper {
+        position: relative;
+        overflow: hidden;
+        height: 250px;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+    }
+
+    &:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+
+        .card-img-wrapper img {
+            transform: scale(1.06);
+        }
+    }
+
+    .badge-top {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        z-index: 10;
+        backdrop-filter: blur(5px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+}
+
+// Beautiful Brand Pagination Styles
+.catalog-pagination {
+    .pagination {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 40px;
+        padding-left: 0;
+        list-style: none;
+    }
+
+    .page-item {
+        .page-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 46px;
+            height: 46px;
+            border-radius: 50% !important;
+            border: 2px solid #eef1f4;
+            background-color: white;
+            color: $brand-dark;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            text-decoration: none;
+
+            &:hover {
+                background-color: rgba($brand-primary, 0.05);
+                border-color: $brand-primary;
+                color: $brand-primary;
+                transform: translateY(-2px);
+            }
+        }
+
+        &.active .page-link {
+            background-color: $brand-primary;
+            border-color: $brand-primary;
+            color: white;
+            box-shadow: 0 5px 15px rgba($brand-primary, 0.3);
+            transform: translateY(-2px);
+        }
+
+        &.disabled .page-link {
+            color: #b0bac9;
+            background-color: #f8fafc;
+            border-color: #eef1f4;
+            pointer-events: none;
+        }
+    }
+}
+
+// Pagination bar: count left, links right
+.catalog-pagination-bar {
+    border-top: 1px solid #eef1f4;
+
+    .catalog-result-count {
+        font-size: 0.875rem;
+        color: #6b7280;
+        white-space: nowrap;
+    }
+
+    .catalog-pagination .pagination {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    // On mobile, center both items
+    @media (max-width: 991.98px) {
+        .catalog-pagination {
+            width: 100%;
+
+            .pagination {
+                justify-content: center;
+            }
+        }
+    }
+}

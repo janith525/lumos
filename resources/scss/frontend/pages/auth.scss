@@ -1,0 +1,183 @@
+@import '../variables';
+
+.auth-section {
+    background-color: #f8fafc;
+    background-image: 
+        radial-gradient(at 0% 0%, rgba(102, 188, 186, 0.08) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(71, 71, 71, 0.04) 0px, transparent 50%),
+        radial-gradient(at 50% 100%, rgba(102, 188, 186, 0.03) 0px, transparent 50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.auth-card {
+    background: #ffffff;
+    border-radius: 1.25rem;
+    border-top: 5px solid $brand-primary !important;
+    box-shadow: 0 20px 40px rgba(71, 71, 71, 0.08), 0 5px 15px rgba(0, 0, 0, 0.02) !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 25px 50px rgba(71, 71, 71, 0.12), 0 8px 20px rgba(0, 0, 0, 0.03) !important;
+    }
+}
+
+.auth-title {
+    color: $brand-dark;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 0.5rem;
+}
+
+.auth-description {
+    color: #64748b;
+    font-size: 0.95rem;
+}
+
+.auth-form-label {
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: #334155;
+    margin-bottom: 0.4rem;
+}
+
+.auth-form-control {
+    border: 1.5px solid #e2e8f0;
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: #0f172a;
+    transition: all 0.2s ease;
+    background-color: #f8fafc;
+
+    &::placeholder {
+        color: #94a3b8;
+    }
+
+    &:focus {
+        background-color: #ffffff;
+        border-color: $brand-primary;
+        outline: 0;
+        box-shadow: 0 0 0 4px rgba(102, 188, 186, 0.15);
+    }
+}
+
+.auth-input-group {
+    position: relative;
+
+    .btn-toggle-password {
+        position: absolute;
+        right: 0.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        border: none;
+        background: transparent;
+        color: #64748b;
+        padding: 0.4rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+        border-radius: 0.5rem;
+        z-index: 5;
+        transition: color 0.2s ease;
+
+        &:hover {
+            color: $brand-primary;
+        }
+    }
+}
+
+.auth-checkbox {
+    cursor: pointer;
+    
+    input[type="checkbox"] {
+        cursor: pointer;
+        width: 1.15rem;
+        height: 1.15rem;
+        border-radius: 0.35rem;
+        border: 1.5px solid #cbd5e1;
+        transition: all 0.2s ease;
+
+        &:checked {
+            background-color: $brand-primary;
+            border-color: $brand-primary;
+        }
+
+        &:focus {
+            box-shadow: 0 0 0 4px rgba(102, 188, 186, 0.15);
+            border-color: $brand-primary;
+        }
+    }
+
+    span {
+        font-size: 0.875rem;
+        color: #475569;
+        font-weight: 500;
+        user-select: none;
+    }
+}
+
+.btn-auth-submit {
+    background: linear-gradient(135deg, $brand-primary 0%, darken($brand-primary, 10%) 100%);
+    border: none;
+    border-radius: 0.75rem;
+    padding: 0.85rem 1.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    font-size: 1rem;
+    letter-spacing: 0.2px;
+    box-shadow: 0 4px 15px rgba(102, 188, 186, 0.18);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+
+    &:hover {
+        background: linear-gradient(135deg, darken($brand-primary, 5%) 0%, darken($brand-primary, 15%) 100%);
+        box-shadow: 0 6px 20px rgba(102, 188, 186, 0.3);
+        transform: translateY(-2px);
+        color: #ffffff;
+    }
+
+    &:active {
+        transform: translateY(0);
+        box-shadow: 0 4px 10px rgba(102, 188, 186, 0.15);
+    }
+}
+
+.auth-link {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: $brand-primary;
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &:hover {
+        color: $brand-dark;
+        text-decoration: underline;
+    }
+}
+
+.auth-footer-text {
+    font-size: 0.875rem;
+    color: #64748b;
+}
+
+.auth-alert {
+    border-radius: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-left: 4px solid;
+    
+    &.alert-danger {
+        background-color: #fef2f2;
+        border-color: #ef4444;
+        color: #991b1b;
+    }
+    
+    &.alert-success {
+        background-color: #f0fdf4;
+        border-color: #22c55e;
+        color: #166534;
+    }
+}

@@ -1,0 +1,24 @@
+$font-family-base: 'Instrument Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+$font-family-heading: 'Instrument Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+$font-family-number: 'Georgia', 'Times New Roman', serif;
+
+// Brand palette
+$brand-primary: #66BCBA;
+$brand-secondary: #474747;
+$brand-dark: #212121;
+
+// Bootstrap semantic colors
+$primary: $brand-primary;
+$secondary: $brand-secondary;
+$dark: $brand-dark;
+
+$body-bg: #f8f9fa;
+$body-color: #212529;
+
+$header-bg: $brand-secondary;
+$footer-bg: $brand-dark;
+$header-footer-text: #ffffff;
+$border-color-soft: #dbe3ee;
+
+$link-color: $brand-primary;
+$link-hover-color: $brand-dark;

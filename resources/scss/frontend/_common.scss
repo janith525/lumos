@@ -1,0 +1,139 @@
+body {
+    background-color: $body-bg;
+    background-image: radial-gradient(rgba($brand-primary, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    color: $body-color;
+    font-family: $font-family-base;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+main {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+// Page Banner Section Component (Shared)
+.page-banner-section {
+    .bg-opacity-15 {
+        background-color: rgba(255, 255, 255, 0.15) !important;
+    }
+    
+    .breadcrumb-item {
+        color: rgba(255, 255, 255, 0.8) !important;
+        font-size: 0.9rem;
+        display: inline-flex;
+        align-items: center;
+        
+        a {
+            color: rgba(255, 255, 255, 0.8) !important;
+            transition: color 0.3s ease;
+            
+            &:hover {
+                color: #ffffff !important;
+            }
+        }
+        
+        &.active {
+            color: #ffffff !important;
+        }
+        
+        & + .breadcrumb-item::before {
+            color: rgba(255, 255, 255, 0.5) !important;
+            content: var(--bs-breadcrumb-divider, "/") !important;
+        }
+    }
+
+    .text-shadow-sm {
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+}
+
+// Global Reusable Layout Utility Classes (Replaces Inline Styles)
+.icon-size-60 {
+    width: 60px !important;
+    height: 60px !important;
+}
+
+.icon-size-70 {
+    width: 70px !important;
+    height: 70px !important;
+}
+
+.icon-size-80 {
+    width: 80px !important;
+    height: 80px !important;
+}
+
+.icon-transition-box {
+    transition: transform 0.3s ease;
+}
+
+.shape-blob-about-story {
+    width: 150px;
+    height: 150px;
+    top: -50px;
+    right: -50px;
+}
+
+.shape-decor-1 {
+    width: 400px;
+    height: 400px;
+    top: -200px;
+    left: -100px;
+}
+
+.shape-decor-2 {
+    width: 300px;
+    height: 300px;
+    bottom: -150px;
+    right: -50px;
+}
+
+.chairman-img-container {
+    min-height: 400px;
+}
+
+.chairman-overlay-bg {
+    background: linear-gradient(to top, rgba(33, 33, 33, 0.9), transparent) !important;
+    height: 50% !important;
+}
+
+.quote-icon-large {
+    font-family: Georgia, serif !important;
+    line-height: 0.1 !important;
+}
+
+.vision-gradient-overlay {
+    background: linear-gradient(135deg, #66BCBA, transparent) !important;
+}
+
+.mission-gradient-overlay {
+    background: linear-gradient(135deg, #474747, transparent) !important;
+}
+
+.banner-svg-divider {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 50px;
+}
+
+.banner-shape-decor {
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.max-w-600 {
+    max-width: 600px !important;
+}
+
+.max-w-350 {
+    max-width: 350px !important;
+}
+
+.icon-size-40 {
+    width: 40px !important;
+    height: 40px !important;
+}
+
