@@ -27,64 +27,31 @@ class HomeController extends Controller
             ->orderBy('sort_order')
             ->get();
 
-        // Extract reviews from services to show in social square
-        $allReviews = [];
-        foreach ($services as $service) {
-            foreach ($service->reviews ?? [] as $rev) {
-                $allReviews[] = [
-                    'type' => 'review',
-                    'name' => $rev['name'] ?? 'Parent Review',
-                    'text' => $rev['text'] ?? '',
-                    'stars' => $rev['stars'] ?? 5,
-                    'image' => $service->resolveImageUrl($service->image),
-                    'images' => $service->galleryImageUrls() ?: [$service->resolveImageUrl($service->image)],
-                ];
-            }
-        }
+        // Fetch showcase gallery items selected for homepage
+        $galleryItems = \App\Models\GalleryItem::query()
+            ->where('show_on_home', true)
+            ->orderBy('sort_order', 'asc')
+            ->take(10)
+            ->get();
 
-        // Add some default social posts if reviews are few, to keep the visual grid rich
-        $socialPosts = [
-            [
-                'type' => 'social',
-                'name' => 'New Arrival: Round Crib',
-                'text' => 'Our signature round crib is back in stock! Crafted with love and safety in mind. #LumosNursery #BabyRoom',
-                'stars' => 0,
-                'image' => 'https://images.unsplash.com/photo-1596704017254-9b121068fb31?auto=format&fit=crop&q=80&w=600',
-                'images' => ['https://images.unsplash.com/photo-1596704017254-9b121068fb31?auto=format&fit=crop&q=80&w=1200'],
-            ],
-            [
-                'type' => 'social',
-                'name' => 'Wall Motifs Collection',
-                'text' => 'Create a magical atmosphere with our custom backlit wall motifs. Available in moon, stars, and cloud designs.',
-                'stars' => 0,
-                'image' => 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&q=80&w=600',
-                'images' => ['https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&q=80&w=1200'],
-            ],
-            [
-                'type' => 'social',
-                'name' => 'Minimalist Nursery',
-                'text' => 'Sometimes less is more. Our minimalist white-and-wood collection is perfect for modern homes. #MinimalistNursery #InteriorDesign',
-                'stars' => 0,
-                'image' => 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&q=80&w=600',
-                'images' => ['https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&q=80&w=1200'],
-            ]
-        ];
-
-        // Interleave reviews and social posts
         $gridItems = [];
-        $maxItems = max(count($allReviews), count($socialPosts));
-        for ($i = 0; $i < $maxItems; $i++) {
-            if (isset($allReviews[$i])) {
-                $gridItems[] = $allReviews[$i];
-            }
-            if (isset($socialPosts[$i])) {
-                $gridItems[] = $socialPosts[$i];
-            }
+        foreach ($galleryItems as $item) {
+            $gridItems[] = [
+                'type' => $item->type,
+                'name' => $item->type === 'review' ? ($item->review_author ?? $item->title) : $item->title,
+                'text' => $item->review_content ?? '',
+                'stars' => $item->stars,
+                'image' => $item->primaryImageUrl(),
+                'images' => $item->galleryImageUrls() ?: [$item->primaryImageUrl()],
+            ];
         }
 
-        // Limit grid items to 10 for grid symmetry
-        $gridItems = array_slice($gridItems, 0, 10);
+        $settings = \App\Models\Setting::pluck('value', 'key')->toArray();
+        $title = $settings['home_meta_title'] ?? 'Lumos Nursery & Baby Room Interior Design Studio Sri Lanka';
+        $description = $settings['home_meta_description'] ?? 'Lumos is Sri Lanka\'s first specialized luxury nursery design and kids interior studio. We create tiny dreams with bespoke cribs and safe spaces.';
+        $keywords = $settings['home_meta_keywords'] ?? 'nursery design Sri Lanka, baby room interior Colombo, kids furniture, custom cribs';
+        $og_image = !empty($settings['home_og_image']) ? (str_starts_with($settings['home_og_image'], 'http') ? $settings['home_og_image'] : asset('storage/' . $settings['home_og_image'])) : null;
 
-        return view('frontend.home', compact('products', 'services', 'homeSlides', 'gridItems'));
+        return view('frontend.home', compact('products', 'services', 'homeSlides', 'gridItems', 'title', 'description', 'keywords', 'og_image'));
     }
 }

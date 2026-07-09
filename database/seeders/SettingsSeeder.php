@@ -43,6 +43,13 @@ class SettingsSeeder extends Seeder
             ['key' => 'about_founder_sig_lbl', 'value' => 'Founder & Lead Engineer, Lumos'],
             ['key' => 'about_founder_sig_text', 'value' => 'Eng. Janith Wijesinghe'],
             ['key' => 'about_founder_quote', 'value' => 'A child\'s environment shapes their early growth. We design every crib and backlit panel with absolute love, safety, and attention to detail.'],
+            ['key' => 'about_meta_title', 'value' => 'Our Story - Lumos Nursery Design Studio Sri Lanka'],
+            ['key' => 'about_meta_description', 'value' => 'Discover the journey of Lumos, Sri Lanka\'s first specialized kids interior sanctuary design house. Led by Eng. Janith Wijesinghe, we construct safe, dream nursery spaces.'],
+            ['key' => 'about_meta_keywords', 'value' => 'about lumos, kids room designers Sri Lanka, non-toxic baby furniture, Janith Wijesinghe, safety certified nursery Sri Lanka'],
+            ['key' => 'about_story_image1', 'value' => 'https://images.unsplash.com/photo-1596704017254-9b121068fb31?auto=format&fit=crop&q=80&w=800'],
+            ['key' => 'about_story_image2', 'value' => 'https://images.unsplash.com/photo-1505691723518-36a5ac3be353?auto=format&fit=crop&q=80&w=800'],
+            ['key' => 'about_story_image3', 'value' => 'https://images.unsplash.com/photo-1540932239986-30128078f3c5?auto=format&fit=crop&q=80&w=800'],
+            ['key' => 'about_founder_image', 'value' => 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=800'],
 
             // Inquiry & Contact Page Settings
             ['key' => 'contact_banner_title', 'value' => 'Contact Our Studio'],
@@ -72,10 +79,26 @@ class SettingsSeeder extends Seeder
             ['key' => 'contact_qr_desc', 'value' => 'Quickly reach our design team from your mobile device.'],
             ['key' => 'contact_qr_data', 'value' => 'tel:+94771234567'],
 
+            // Homepage SEO Metadata Seeds
+            ['key' => 'home_meta_title', 'value' => 'Lumos Nursery & Baby Room Interior Design Studio Sri Lanka'],
+            ['key' => 'home_meta_description', 'value' => 'Lumos is Sri Lanka\'s first specialized luxury nursery design and kids interior studio. We create tiny dreams with bespoke cribs and safe spaces.'],
+            ['key' => 'home_meta_keywords', 'value' => 'nursery design Sri Lanka, baby room interior Colombo, kids furniture, custom cribs'],
+            ['key' => 'home_og_image', 'value' => 'https://images.unsplash.com/photo-1596704017254-9b121068fb31?auto=format&fit=crop&q=80&w=800'],
+
             // Footer Info
             ['key' => 'footer_phone', 'value' => '+94 77 123 4567'],
             ['key' => 'footer_email', 'value' => 'hello@lumos.lk'],
             ['key' => 'footer_address', 'value' => 'No. 15, Galle Road, Colombo 03, Sri Lanka'],
+
+            // New Banner Background Images
+            ['key' => 'about_banner_image', 'value' => 'https://images.unsplash.com/photo-1540932239986-30128078f3c5?auto=format&fit=crop&q=80&w=1600'],
+            ['key' => 'contact_banner_image', 'value' => 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&q=80&w=1600'],
+            ['key' => 'gallery_banner_image', 'value' => 'https://images.unsplash.com/photo-1596704017254-9b121068fb31?auto=format&fit=crop&q=80&w=1600'],
+            ['key' => 'services_banner_image', 'value' => 'https://images.unsplash.com/photo-1540932239986-30128078f3c5?auto=format&fit=crop&q=80&w=1600'],
+
+            // Footer Metadata & Copyright
+            ['key' => 'footer_description', 'value' => 'Sri Lanka\'s first and only specialized interior design studio dedicated to creating "tiny dreams" through bespoke nursery and baby room setups.'],
+            ['key' => 'footer_copyright', 'value' => 'Lumos Nursery Interior Studio. All rights reserved.'],
         ];
 
         foreach ($settings as $setting) {

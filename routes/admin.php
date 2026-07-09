@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminGalleryController;
 use App\Http\Controllers\AdminProductController;
 use App\Http\Controllers\AdminQuotesController;
 use App\Http\Controllers\AdminRolesController;
@@ -47,6 +48,14 @@ Route::middleware(['auth', 'backend.access'])->group(function () {
     Route::get('/admin/services/{service}/edit', [AdminServiceController::class, 'edit'])->name('admin.services.edit');
     Route::put('/admin/services/{service}', [AdminServiceController::class, 'update'])->name('admin.services.update');
     Route::delete('/admin/services/{service}', [AdminServiceController::class, 'destroy'])->name('admin.services.delete');
+
+    // Gallery Showcase Management (CRUD)
+    Route::get('/admin/gallery', [AdminGalleryController::class, 'index'])->name('admin.gallery');
+    Route::get('/admin/gallery/create', [AdminGalleryController::class, 'create'])->name('admin.gallery.create');
+    Route::post('/admin/gallery', [AdminGalleryController::class, 'store'])->name('admin.gallery.store');
+    Route::get('/admin/gallery/{galleryItem}/edit', [AdminGalleryController::class, 'edit'])->name('admin.gallery.edit');
+    Route::put('/admin/gallery/{galleryItem}', [AdminGalleryController::class, 'update'])->name('admin.gallery.update');
+    Route::delete('/admin/gallery/{galleryItem}', [AdminGalleryController::class, 'destroy'])->name('admin.gallery.delete');
 
     // Quotes Management
     Route::get('/admin/quotes', [AdminQuotesController::class, 'index'])->name('admin.quotes');

@@ -143,6 +143,36 @@
                         <input type="text" name="header_instagram" class="form-control" value="{{ old('header_instagram', $settings['header_instagram'] ?? '#') }}">
                     </div>
                 </div>
+        </div>
+
+        <!-- FOOTER METADATA -->
+        <div class="card cms-card">
+            <div class="cms-card-header">
+                <h5 class="text-blue-custom mb-0">Footer Metadata &amp; Copyright</h5>
+            </div>
+            <div class="card-body p-4 bg-dark">
+                <div class="row g-4">
+                    <div class="col-md-12">
+                        <label class="form-label">Footer About Narrative / Description</label>
+                        <textarea name="footer_description" class="form-control" rows="3" placeholder="Enter short bio text for the footer column">{{ old('footer_description', $settings['footer_description'] ?? '') }}</textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Footer Contact Phone</label>
+                        <input type="text" name="footer_phone" class="form-control" value="{{ old('footer_phone', $settings['footer_phone'] ?? '') }}" placeholder="e.g. 071 719 9302">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Footer Contact Email</label>
+                        <input type="email" name="footer_email" class="form-control" value="{{ old('footer_email', $settings['footer_email'] ?? '') }}" placeholder="e.g. hello@lumos.lk">
+                    </div>
+                    <div class="col-md-12">
+                        <label class="form-label">Footer Studio Address</label>
+                        <textarea name="footer_address" class="form-control" rows="2" placeholder="Enter physical address displayed in the footer">{{ old('footer_address', $settings['footer_address'] ?? '') }}</textarea>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="form-label">Footer Copyright Notice</label>
+                        <input type="text" name="footer_copyright" class="form-control" value="{{ old('footer_copyright', $settings['footer_copyright'] ?? '') }}" placeholder="e.g. Lumos Nursery Interior Studio. All rights reserved.">
+                    </div>
+                </div>
             </div>
         </div>
 

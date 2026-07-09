@@ -73,6 +73,17 @@
                 </div>
 
                 <div class="mb-3">
+                    <label class="form-label">Banner Background Image</label>
+                    @if(isset($settings['contact_banner_image']) && $settings['contact_banner_image'])
+                        <div class="mb-2 p-2 border rounded text-center bg-black border-secondary" style="max-width: 250px;">
+                            <img src="{{ asset('storage/' . $settings['contact_banner_image']) }}" class="img-fluid rounded" style="max-height: 100px;" />
+                        </div>
+                    @endif
+                    <input type="file" class="filepond-banner" name="contact_banner_image" accept="image/*">
+                    <div class="form-text text-muted">Upload a banner image. Recommended aspect ratio 16:9 or 21:9.</div>
+                </div>
+
+                <div class="mb-3">
                     <label class="form-label">Contact Eyebrow</label>
                     <input type="text" name="contact_eyebrow" class="form-control" value="{{ old('contact_eyebrow', $settings['contact_eyebrow'] ?? '') }}">
                 </div>
@@ -250,6 +261,10 @@
             const ogContactImg = document.querySelector('.filepond-og-contact');
             if (ogContactImg) {
                 window.initCommonUploader(ogContactImg);
+            }
+            const bannerImg = document.querySelector('.filepond-banner');
+            if (bannerImg) {
+                window.initCommonUploader(bannerImg);
             }
             const qrContactImg = document.querySelector('.filepond-qr-contact');
             if (qrContactImg) {

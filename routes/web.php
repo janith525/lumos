@@ -13,25 +13,42 @@ use App\Http\Controllers\SystemController;
 Route::get('/', HomeController::class)->name('front-end.home');
 Route::get('/home', HomeController::class)->name('home');
 
-Route::view('/about', 'frontend.about', [
-    'title' => 'Our Story - Lumos Nursery Design Studio Sri Lanka',
-    'description' => 'Discover the journey of Lumos, Sri Lanka\'s first specialized kids interior sanctuary design house. Led by Eng. Janith Wijesinghe, we construct safe, dream nursery spaces.',
-    'keywords' => 'about lumos, kids room designers Sri Lanka, non-toxic baby furniture, Janith Wijesinghe, safety certified nursery Sri Lanka'
-])->name('about');
+Route::get('/about', function () {
+    $settings = \App\Models\Setting::pluck('value', 'key')->toArray();
+    return view('frontend.about', [
+        'settings' => $settings,
+        'title' => $settings['about_meta_title'] ?? 'Our Story - Lumos Nursery Design Studio Sri Lanka',
+        'description' => $settings['about_meta_description'] ?? 'Discover the journey of Lumos, Sri Lanka\'s first specialized kids interior sanctuary design house. Led by Eng. Janith Wijesinghe, we construct safe, dream nursery spaces.',
+        'keywords' => $settings['about_meta_keywords'] ?? 'about lumos, kids room designers Sri Lanka, non-toxic baby furniture, Janith Wijesinghe, safety certified nursery Sri Lanka',
+        'og_image' => !empty($settings['about_og_image']) ? asset('storage/' . $settings['about_og_image']) : null
+    ]);
+})->name('about');
 
-Route::view('/gallery', 'frontend.gallery', [
-    'title' => 'Nursery & Kids Room Gallery - Lumos Studio Sri Lanka',
-    'description' => 'Browse through our premium collection of luxury nursery designs, custom baby furniture, starry backdrop installations, and completed child-safe room setups.',
-    'keywords' => 'nursery gallery Colombo, baby room portfolio Sri Lanka, custom baby furniture design, kids bedroom projects, Lumos interior portfolio'
-])->name('gallery');
+Route::get('/gallery', function () {
+    $settings = \App\Models\Setting::pluck('value', 'key')->toArray();
+    $galleryItems = \App\Models\GalleryItem::query()->orderBy('sort_order', 'asc')->orderBy('id', 'desc')->get();
+    return view('frontend.gallery', [
+        'settings' => $settings,
+        'galleryItems' => $galleryItems,
+        'title' => $settings['gallery_meta_title'] ?? 'Nursery & Kids Room Gallery - Lumos Studio Sri Lanka',
+        'description' => $settings['gallery_meta_description'] ?? 'Browse through our premium collection of luxury nursery designs, custom baby furniture, starry backdrop installations, and completed child-safe room setups.',
+        'keywords' => $settings['gallery_meta_keywords'] ?? 'nursery gallery Colombo, baby room portfolio Sri Lanka, custom baby furniture design, kids bedroom projects, Lumos interior portfolio',
+        'og_image' => !empty($settings['gallery_og_image']) ? asset('storage/' . $settings['gallery_og_image']) : null
+    ]);
+})->name('gallery');
 
 use App\Http\Controllers\Frontend\ProductServiceController;
 
-Route::view('/contact', 'frontend.contact', [
-    'title' => 'Contact Us - Lumos Kids Nursery & Kids Room Designers Colombo',
-    'description' => 'Get in touch with Lumos, Sri Lanka\'s leading nursery and child interior design studio. Contact us for bespoke round cribs, organic furniture, and dream child rooms.',
-    'keywords' => 'contact lumos, baby nursery designs Colombo, nursery consulting Sri Lanka, child safe room decorators, custom cribs inquiries'
-])->name('contact');
+Route::get('/contact', function () {
+    $settings = \App\Models\Setting::pluck('value', 'key')->toArray();
+    return view('frontend.contact', [
+        'settings' => $settings,
+        'title' => $settings['contact_meta_title'] ?? 'Contact Us - Lumos Kids Nursery & Kids Room Designers Colombo',
+        'description' => $settings['contact_meta_description'] ?? 'Get in touch with Lumos, Sri Lanka\'s leading nursery and child interior design studio. Contact us for bespoke round cribs, organic furniture, and dream child rooms.',
+        'keywords' => $settings['contact_meta_keywords'] ?? 'contact lumos, baby nursery designs Colombo, nursery consulting Sri Lanka, child safe room decorators, custom cribs inquiries',
+        'og_image' => !empty($settings['contact_og_image']) ? asset('storage/' . $settings['contact_og_image']) : null
+    ]);
+})->name('contact');
 
 // Static informational pages
 Route::view('/privacy-policy', 'frontend.privacy', [

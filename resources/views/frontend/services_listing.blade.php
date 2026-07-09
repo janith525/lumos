@@ -7,7 +7,7 @@
     {{-- Reusable Banner Partial --}}
     @include('frontend.partials.banner', [
         'title' => "Explore Our Luxury Nursery Designs & Organic Products",
-        'bgImage' => 'https://images.unsplash.com/photo-1540932239986-30128078f3c5?auto=format&fit=crop&q=80&w=1600',
+        'bgImage' => !empty($settings['services_banner_image']) ? (str_starts_with($settings['services_banner_image'], 'http') ? $settings['services_banner_image'] : asset('storage/' . $settings['services_banner_image'])) : 'https://images.unsplash.com/photo-1540932239986-30128078f3c5?auto=format&fit=crop&q=80&w=1600',
         'breadcrumbs' => [
             ['label' => 'Home', 'url' => route('home')],
             ['label' => 'Services & Products']

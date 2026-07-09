@@ -99,7 +99,9 @@ class ProductServiceController extends Controller
             ['path' => $request->url(), 'query' => $request->query()]
         );
 
+        $settings = \App\Models\Setting::pluck('value', 'key')->toArray();
         return view('frontend.services_listing', [
+            'settings' => $settings,
             'title' => 'Products & Styling Services - Lumos Studio Colombo',
             'description' => 'Browse our high-end nursery interior design services, safety consultation plans, bespoke organic round cribs, and child-safe playhouses.',
             'keywords' => 'nursery services, baby furniture Colombo, organic round cribs Sri Lanka, kids design studio catalog',
@@ -117,9 +119,10 @@ class ProductServiceController extends Controller
         $relatedProducts = $serviceModel->products->map(fn($p) => $this->mapProduct($p))->toArray();
 
         return view('frontend.service_detail', [
-            'title' => $service['title'] . ' - Lumos Kids Interior Design',
-            'description' => $service['tagline'] . ' Certified child safety standards and bespoke craftsmanship in Colombo.',
+            'title' => $serviceModel->meta_title ?: ($service['title'] . ' - Lumos Kids Interior Design'),
+            'description' => $serviceModel->meta_description ?: ($service['tagline'] . ' Certified child safety standards and bespoke craftsmanship in Colombo.'),
             'keywords' => strtolower($service['title']) . ', nursery designer Sri Lanka, baby room decorator',
+            'og_image' => $serviceModel->ogImageUrl(),
             'service' => $service,
             'relatedProducts' => $relatedProducts
         ]);
@@ -134,9 +137,10 @@ class ProductServiceController extends Controller
         $relatedServices = $productModel->services->map(fn($s) => $this->mapService($s))->toArray();
 
         return view('frontend.product_detail', [
-            'title' => $product['title'] . ' - Lumos Bespoke Kids Collection',
-            'description' => $product['tagline'] . ' Crafted with 100% organic materials and soft-close hardware.',
+            'title' => $productModel->meta_title ?: ($product['title'] . ' - Lumos Bespoke Kids Collection'),
+            'description' => $productModel->meta_description ?: ($product['tagline'] . ' Crafted with 100% organic materials and soft-close hardware.'),
             'keywords' => strtolower($product['title']) . ', bespoke round crib Sri Lanka, solid wood baby furniture',
+            'og_image' => $productModel->ogImageUrl(),
             'product' => $product,
             'relatedServices' => $relatedServices
         ]);

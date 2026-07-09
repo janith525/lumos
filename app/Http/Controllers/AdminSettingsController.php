@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\GalleryItem;
 use App\Helpers\UploadHelper;
 use App\Models\HomeSlide;
 use App\Models\Setting;
@@ -27,10 +28,12 @@ class AdminSettingsController extends Controller
     {
         $settings = Setting::pluck('value', 'key')->toArray();
         $slides = HomeSlide::orderBy('sort_order', 'asc')->get();
+        $galleryItems = GalleryItem::orderBy('sort_order', 'asc')->orderBy('id', 'desc')->get();
 
         return view('backend.settings.home', [
             'settings' => $settings,
             'slides' => $slides,
+            'galleryItems' => $galleryItems,
             'title' => 'Home Page Settings | Lumos',
         ]);
     }
@@ -74,9 +77,17 @@ class AdminSettingsController extends Controller
             'home_og_image',
             'about_og_image',
             'contact_og_image',
-            'contact_qr_image'
+            'contact_qr_image',
+            'about_story_image1',
+            'about_story_image2',
+            'about_story_image3',
+            'about_founder_image',
+            'about_banner_image',
+            'contact_banner_image',
+            'gallery_banner_image',
+            'services_banner_image'
         ];
-        $inputs = $request->except(array_merge(['_token', 'slides'], $fileKeys));
+        $inputs = $request->except(array_merge(['_token', 'slides', 'homepage_gallery'], $fileKeys));
 
         // Update settings in database
         foreach ($inputs as $key => $value) {
@@ -85,6 +96,11 @@ class AdminSettingsController extends Controller
                 ['value' => $value ?? '']
             );
         }
+
+        // Sync homepage showcase gallery items
+        $homepageGalleryIds = $request->input('homepage_gallery', []);
+        GalleryItem::whereIn('id', $homepageGalleryIds)->update(['show_on_home' => true]);
+        GalleryItem::whereNotIn('id', $homepageGalleryIds)->update(['show_on_home' => false]);
 
         // Handle file uploads dynamically
         foreach ($fileKeys as $fileKey) {
@@ -118,6 +134,7 @@ class AdminSettingsController extends Controller
 
             foreach ($slidesArray as $index => $slideData) {
                 $imagePath = $slideData['image'] ?? '';
+                $mobileImagePath = $slideData['mobile_image'] ?? '';
 
                 // Handle base64 image upload
                 if (str_starts_with($imagePath, 'data:image')) {
@@ -128,6 +145,15 @@ class AdminSettingsController extends Controller
                     $imagePath = Storage::url($filename);
                 }
 
+                // Handle base64 mobile image upload
+                if (str_starts_with($mobileImagePath, 'data:image')) {
+                    $mobileImageData = substr($mobileImagePath, strpos($mobileImagePath, ',') + 1);
+                    $mobileImageData = base64_decode($mobileImageData);
+                    $mobileFilename = 'hero/'.uniqid().'_mobile.jpg';
+                    Storage::disk('public')->put($mobileFilename, $mobileImageData);
+                    $mobileImagePath = Storage::url($mobileFilename);
+                }
+
                 $slide = HomeSlide::updateOrCreate(
                     ['id' => $slideData['id'] ?? null],
                     [
@@ -135,6 +161,7 @@ class AdminSettingsController extends Controller
                         'title' => $slideData['title'] ?? '',
                         'subtext' => $slideData['subtext'] ?? '',
                         'image' => $imagePath,
+                        'mobile_image' => $mobileImagePath ?: null,
                         'button_text' => $slideData['button_text'] ?? null,
                         'button_link' => $slideData['button_link'] ?? null,
                         'sort_order' => $index,

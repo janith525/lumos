@@ -8,11 +8,21 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <meta name="description" content="{{ $description ?? 'Corporate CMS' }}">
+     <meta name="description" content="{{ $description ?? 'Corporate CMS' }}">
     <meta name="title" content="{{ $title ?? 'Corporate CMS' }}">
     <meta name="keywords" content="{{ $keywords ?? 'Corporate CMS' }}">
     <meta name="author" content="{{ $author ?? 'Corporate CMS' }}">
     <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request()->url() }}">
+    <meta property="og:title" content="{{ $title ?? 'Corporate CMS' }}">
+    <meta property="og:description" content="{{ $description ?? 'Corporate CMS' }}">
+    @if(filled($og_image ?? null))
+        <meta property="og:image" content="{{ $og_image }}">
+    @endif
+
     {{-- Custom Meta Tags --}}
     @yield('meta_tags')
     @fluxAppearance

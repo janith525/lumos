@@ -130,6 +130,72 @@ class ServiceSeeder extends Seeder
                 'og_image' => 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=80',
                 'product_slugs' => ['backlit-constellation-board', 'cloud-backlit-motif'],
             ],
+            [
+                'name' => 'Newborn Sleep & Acoustic Optimization',
+                'slug' => 'sleep-acoustic-optimization',
+                'category' => 'Acoustics & Sleep',
+                'subtitle' => 'Scientific soundproofing and white noise acoustic integration for peaceful sleep.',
+                'description' => 'We optimize nursery rooms for deep sleep by installing premium acoustic wall panels, double-glazed window insulation, and custom integrated white-noise sound systems hidden elegantly behind wooden moldings.',
+                'image' => 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&q=80&w=800',
+                'images' => [
+                    'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&q=80&w=1200',
+                    'https://images.unsplash.com/photo-1540518614846-7eded433c457?auto=format&fit=crop&q=80&w=1200'
+                ],
+                'reviews' => [
+                    [
+                        'name' => 'Shanika R. (Havelock City)',
+                        'stars' => 5,
+                        'text' => 'The acoustic panels worked wonders! Our apartment is near a busy road but the nursery is now a quiet oasis.'
+                    ]
+                ],
+                'project_timeline' => '1-2 Weeks',
+                'consultation_fee' => 'LKR 10,000',
+                'inclusions' => [
+                    'Acoustic Decibel Mapping',
+                    'Soundproof Wall Panel Installation',
+                    'Integrated Sound System Setup'
+                ],
+                'is_featured' => true,
+                'sort_order' => 4,
+                'status' => 'published',
+                'meta_title' => 'Newborn Sleep & Acoustic Optimization | Lumos Nursery Studio',
+                'meta_description' => 'Soundproofing and acoustic optimization for baby nurseries in Sri Lanka. Creating peaceful sleep environments using scientific soundproofing.',
+                'og_image' => 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1200&q=80',
+                'product_slugs' => ['royal-pastel-round-crib', 'cloud-backlit-motif'],
+            ],
+            [
+                'name' => 'Eco-Friendly Organic Paint & Safety Finishes',
+                'slug' => 'eco-paint-safety-finishes',
+                'category' => 'Safety & Hygiene',
+                'subtitle' => 'Zero-VOC, certified non-toxic painting and premium anti-microbial wall coatings.',
+                'description' => 'Protect your newborn\'s sensitive respiratory system. We perform full room painting using strictly zero-VOC, certified organic, anti-microbial paints and apply child-safe wax finishes to all wooden items.',
+                'image' => 'https://images.unsplash.com/photo-1615876234886-fd9a39fda97f?auto=format&fit=crop&q=80&w=800',
+                'images' => [
+                    'https://images.unsplash.com/photo-1615876234886-fd9a39fda97f?auto=format&fit=crop&q=80&w=1200',
+                    'https://images.unsplash.com/photo-1522813589930-d4130005a76e?auto=format&fit=crop&q=80&w=1200'
+                ],
+                'reviews' => [
+                    [
+                        'name' => 'Minuri K. (Battaramulla)',
+                        'stars' => 5,
+                        'text' => 'There was absolutely zero paint odor. Our toddler has asthma, and this was the safest, cleanest room upgrade we could ask for.'
+                    ]
+                ],
+                'project_timeline' => '1 Week',
+                'consultation_fee' => 'LKR 7,500',
+                'inclusions' => [
+                    'Zero-VOC Wall Coating',
+                    'Non-Toxic Finish Certification',
+                    'Mold & Anti-Microbial Treatment'
+                ],
+                'is_featured' => true,
+                'sort_order' => 5,
+                'status' => 'published',
+                'meta_title' => 'Eco-Friendly Organic Paint & Safety Finishes | Lumos Nursery Studio',
+                'meta_description' => 'Zero-VOC painting and certified non-toxic wall coatings for kids rooms in Sri Lanka. Keeping your nursery air clean and safe.',
+                'og_image' => 'https://images.unsplash.com/photo-1615876234886-fd9a39fda97f?auto=format&fit=crop&w=1200&q=80',
+                'product_slugs' => ['montessori-house-bed', 'scandinavian-storage-chest'],
+            ],
         ];
 
         foreach ($services as $data) {

@@ -1,5 +1,9 @@
 <?php
 
+beforeEach(function () {
+    $this->seed();
+});
+
 test('gallery page renders successfully and matches all SEO requirements', function () {
     $response = $this->get(route('gallery'));
 

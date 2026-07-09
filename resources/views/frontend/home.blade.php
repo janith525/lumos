@@ -10,7 +10,10 @@
                 @forelse($homeSlides as $index => $slide)
                     <a href="{{ $slide->button_link ?? '#services' }}" class="carousel-item {{ $index === 0 ? 'active' : '' }}">
                         <picture>
-                            <img src="{{ str_starts_with($slide->image, 'http') ? $slide->image : asset('storage/' . $slide->image) }}" class="d-block w-100 hero-img"
+                            @if(!empty($slide->mobile_image))
+                                <source media="(max-width: 767px)" srcset="{{ str_starts_with($slide->mobile_image, 'http') ? $slide->mobile_image : (str_starts_with($slide->mobile_image, '/') ? asset($slide->mobile_image) : asset('storage/' . $slide->mobile_image)) }}">
+                            @endif
+                            <img src="{{ str_starts_with($slide->image, 'http') ? $slide->image : (str_starts_with($slide->image, '/') ? asset($slide->image) : asset('storage/' . $slide->image)) }}" class="d-block w-100 hero-img"
                                  alt="{{ $slide->title }}">
                         </picture>
                     </a>
@@ -248,7 +251,7 @@
                             data-stars="{{ $item['stars'] }}">
                             <div class="post-img-wrapper">
                                 <img src="{{ $item['image'] }}" class="img-fluid" alt="{{ $item['name'] }}">
-                                <div class="post-category-badge {{ $item['type'] === 'social' ? 'bg-dark' : '' }}">
+                                <div class="post-category-badge {{ $item['type'] === 'social' ? 'bg-dark text-white' : '' }}">
                                     {{ ucfirst($item['type']) }}
                                 </div>
                                 <div class="post-overlay">

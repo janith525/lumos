@@ -7,7 +7,7 @@
     {{-- Reusable Banner Partial --}}
     @include('frontend.partials.banner', [
         'title' => "Contact Lumos: Sri Lanka's Elite Kids Room & Nursery Designers",
-        'bgImage' => 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&q=80&w=1600',
+        'bgImage' => !empty($settings['contact_banner_image']) ? (str_starts_with($settings['contact_banner_image'], 'http') ? $settings['contact_banner_image'] : asset('storage/' . $settings['contact_banner_image'])) : 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&q=80&w=1600',
         'breadcrumbs' => [
             ['label' => 'Home', 'url' => route('home')],
             ['label' => 'Contact']

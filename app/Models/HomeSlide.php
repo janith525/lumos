@@ -11,6 +11,7 @@ class HomeSlide extends Model
         'title',
         'subtext',
         'image',
+        'mobile_image',
         'button_text',
         'button_link',
         'sort_order',

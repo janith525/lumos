@@ -117,6 +117,30 @@
                     @endif
                     <input type="file" class="filepond-logo" name="logo" accept="image/*">
                 </div>
+
+                <div class="mb-4 border-top border-secondary pt-3">
+                    <h5 class="text-blue mb-3" style="font-size:14px; font-weight:700; text-transform:uppercase;">✦ Page Banners</h5>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Gallery Page Banner</label>
+                    @if(isset($settings['gallery_banner_image']) && $settings['gallery_banner_image'])
+                        <div class="mb-3 p-3 border rounded-3 text-center" style="background: rgba(255,255,255,0.01); border-color: rgba(255,255,255,0.05);">
+                            <img src="{{ asset('storage/' . $settings['gallery_banner_image']) }}" class="img-fluid" style="max-height: 80px;" />
+                        </div>
+                    @endif
+                    <input type="file" class="filepond-gallery-banner" name="gallery_banner_image" accept="image/*">
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Services Page Banner</label>
+                    @if(isset($settings['services_banner_image']) && $settings['services_banner_image'])
+                        <div class="mb-3 p-3 border rounded-3 text-center" style="background: rgba(255,255,255,0.01); border-color: rgba(255,255,255,0.05);">
+                            <img src="{{ asset('storage/' . $settings['services_banner_image']) }}" class="img-fluid" style="max-height: 80px;" />
+                        </div>
+                    @endif
+                    <input type="file" class="filepond-services-banner" name="services_banner_image" accept="image/*">
+                </div>
             </div>
         </div>
 
@@ -137,6 +161,16 @@
             const logoElement = document.querySelector('.filepond-logo');
             if (logoElement) {
                 window.initCommonUploader(logoElement);
+            }
+
+            const galleryBannerElement = document.querySelector('.filepond-gallery-banner');
+            if (galleryBannerElement) {
+                window.initCommonUploader(galleryBannerElement);
+            }
+
+            const servicesBannerElement = document.querySelector('.filepond-services-banner');
+            if (servicesBannerElement) {
+                window.initCommonUploader(servicesBannerElement);
             }
         });
     </script>

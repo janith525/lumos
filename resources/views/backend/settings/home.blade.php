@@ -183,6 +183,7 @@
                             </div>
                         @endif
                         <input type="file" class="filepond-about-img" name="home_about_image" accept="image/*">
+                        <div class="form-text text-muted" style="color: #94a3b8 !important;">Recommended 800x1000 px (4:5 vertical aspect ratio).</div>
                     </div>
                 </div>
 
@@ -262,6 +263,7 @@
                             </div>
                         @endif
                         <input type="file" class="filepond-why-img" name="home_why_choose_image" accept="image/*">
+                        <div class="form-text text-muted" style="color: #94a3b8 !important;">Recommended 800x1000 px (4:5 vertical aspect ratio).</div>
                     </div>
                 </div>
 
@@ -339,7 +341,38 @@
                         </div>
                     @endif
                     <input type="file" class="filepond-og-home" name="home_og_image" accept="image/*">
-                    <span class="text-muted" style="color: rgba(148, 163, 184, 0.45) !important; font-size: 12px; margin-top: 0.5rem; font-weight: 500;">Upload an image for social sharing preview.</span>
+                    <span class="text-muted" style="color: rgba(148, 163, 184, 0.45) !important; font-size: 12px; margin-top: 0.5rem; font-weight: 500;">Upload an image for social sharing preview. Recommended 1200x630 px (1.91:1 aspect ratio).</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 6: HOMEPAGE SHOWCASE GALLERY -->
+        <div class="card cms-card mt-4">
+            <div class="cms-card-header">
+                <h5 class="text-blue-custom mb-0">Section 6: Homepage Showcase Gallery Selection</h5>
+            </div>
+            <div class="card-body p-4 bg-dark">
+                <p class="text-muted mb-3" style="font-size: 13px;">Select which gallery showcase items will appear in the homepage grid. The home page displays up to 10 selected items.</p>
+                
+                <div class="row g-3">
+                    @foreach($galleryItems as $item)
+                        <div class="col-md-6 col-lg-4">
+                            <div class="p-3 border border-secondary rounded-3 bg-black d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center gap-3">
+                                    @if($item->image)
+                                        <img src="{{ $item->primaryImageUrl() }}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px;" />
+                                    @endif
+                                    <div>
+                                        <div class="text-white fw-bold" style="font-size: 13px;">{{ $item->title }}</div>
+                                        <div class="text-muted" style="font-size: 11px;">{{ ucfirst($item->category) }} • {{ ucfirst($item->type) }}</div>
+                                    </div>
+                                </div>
+                                <div class="form-check form-switch mb-0">
+                                    <input class="form-check-input" type="checkbox" name="homepage_gallery[]" value="{{ $item->id }}" id="gallery-item-{{ $item->id }}" {{ $item->show_on_home ? 'checked' : '' }}>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -393,15 +426,27 @@
                 </div>
 
                 <div class="row mt-3">
-                    <div class="col-12 mb-3">
-                        <label class="form-label text-blue fw-bold">Slide Image</label>
-                        <input type="file" id="slide_image_file" class="form-control bg-black text-white border-secondary mb-2" accept="image/*" onchange="previewImage(this)">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label text-blue fw-bold">Desktop Image (16:9)</label>
+                        <input type="file" id="slide_image_file" class="form-control bg-black text-white border-secondary mb-2" accept="image/*" onchange="previewDesktopImage(this)">
                         <input type="hidden" id="slide_image_base64">
                         <div class="position-relative mt-2" style="border-radius: 12px; overflow: hidden; border: 1px dashed rgba(59,130,246,0.3); background: rgba(0,0,0,0.2); min-height: 160px; display: flex; align-items: center; justify-content: center;">
-                            <img id="slide_image_preview" class="w-100" style="max-height: 200px; object-fit: contain; display: none;">
+                            <img id="slide_image_preview" class="w-100" style="max-height: 150px; object-fit: contain; display: none;">
                             <div id="slide_image_placeholder" class="text-center p-3 text-muted" style="font-size: 12px;">
-                                <span>No Slide Image Selected</span><br>
-                                <span class="badge-ratio">Recommended 1920x1080 px (16:9)</span>
+                                <span>No Desktop Image Selected</span><br>
+                                <span class="badge-ratio">Recommended 1920x1080 px</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label text-blue fw-bold">Mobile Image</label>
+                        <input type="file" id="slide_mobile_image_file" class="form-control bg-black text-white border-secondary mb-2" accept="image/*" onchange="previewMobileImage(this)">
+                        <input type="hidden" id="slide_mobile_image_base64">
+                        <div class="position-relative mt-2" style="border-radius: 12px; overflow: hidden; border: 1px dashed rgba(59,130,246,0.3); background: rgba(0,0,0,0.2); min-height: 160px; display: flex; align-items: center; justify-content: center;">
+                            <img id="slide_mobile_image_preview" class="w-100" style="max-height: 150px; object-fit: contain; display: none;">
+                            <div id="slide_mobile_image_placeholder" class="text-center p-3 text-muted" style="font-size: 12px;">
+                                <span>No Mobile Image Selected</span><br>
+                                <span class="badge-ratio">Recommended 800x1000 px</span>
                             </div>
                         </div>
                     </div>
@@ -463,14 +508,23 @@
 
             slidesData.forEach((slide, index) => {
                 const slidePreview = slide.image ? `<img src="${slide.image}" class="slide-thumb">` : `<div class="d-flex align-items-center justify-content-center bg-black text-muted" style="height:100px; border-radius:8px;">No image</div>`;
+                const mobileSlidePreview = slide.mobile_image ? `<img src="${slide.mobile_image}" class="slide-thumb">` : `<div class="d-flex align-items-center justify-content-center bg-black text-muted" style="height:100px; border-radius:8px;">No mobile image</div>`;
 
                 const card = document.createElement('div');
                 card.className = 'slide-item';
                 card.innerHTML = `
                     <div class="row align-items-center">
                         <div class="col-md-3 mb-3 mb-md-0">
-                            ${slidePreview}
-                            <div class="text-center"><span class="badge-ratio">16:9 Image</span></div>
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    ${slidePreview}
+                                    <div class="text-center" style="font-size: 9px;"><span class="badge-ratio">Desktop</span></div>
+                                </div>
+                                <div class="col-6">
+                                    ${mobileSlidePreview}
+                                    <div class="text-center" style="font-size: 9px;"><span class="badge-ratio">Mobile</span></div>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-6 mb-3 mb-md-0">
                             <span class="badge bg-primary mb-1 text-uppercase">${escapeHtml(slide.kicker || 'Slide')}</span>
@@ -509,6 +563,11 @@
             document.getElementById('slide_image_preview').style.display = 'none';
             document.getElementById('slide_image_placeholder').style.display = 'block';
 
+            document.getElementById('slide_mobile_image_file').value = '';
+            document.getElementById('slide_mobile_image_base64').value = '';
+            document.getElementById('slide_mobile_image_preview').style.display = 'none';
+            document.getElementById('slide_mobile_image_placeholder').style.display = 'block';
+
             document.getElementById('slideModalTitle').innerText = 'Add Slide';
             new bootstrap.Modal(document.getElementById('slideModal')).show();
         }
@@ -536,6 +595,18 @@
                 document.getElementById('slide_image_placeholder').style.display = 'block';
             }
 
+            document.getElementById('slide_mobile_image_file').value = '';
+            document.getElementById('slide_mobile_image_base64').value = slide.mobile_image || '';
+
+            if (slide.mobile_image) {
+                document.getElementById('slide_mobile_image_preview').src = slide.mobile_image;
+                document.getElementById('slide_mobile_image_preview').style.display = 'block';
+                document.getElementById('slide_mobile_image_placeholder').style.display = 'none';
+            } else {
+                document.getElementById('slide_mobile_image_preview').style.display = 'none';
+                document.getElementById('slide_mobile_image_placeholder').style.display = 'block';
+            }
+
             document.getElementById('slideModalTitle').innerText = 'Edit Slide';
             new bootstrap.Modal(document.getElementById('slideModal')).show();
         }
@@ -549,13 +620,14 @@
             const button_text = document.getElementById('slide_button_text').value;
             const button_link = document.getElementById('slide_button_link').value;
             const image = document.getElementById('slide_image_base64').value;
+            const mobile_image = document.getElementById('slide_mobile_image_base64').value;
 
             if (!image) {
-                alert('Slide image is required!');
+                alert('Slide Desktop image is required!');
                 return;
             }
 
-            const dataObj = { id, kicker, title, subtext, button_text, button_link, image };
+            const dataObj = { id, kicker, title, subtext, button_text, button_link, image, mobile_image };
 
             if (index === -1) {
                 slidesData.push(dataObj);
@@ -595,7 +667,7 @@
             }
         }
 
-        function previewImage(input) {
+        function previewDesktopImage(input) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function (e) {
@@ -603,6 +675,19 @@
                     document.getElementById('slide_image_preview').src = e.target.result;
                     document.getElementById('slide_image_preview').style.display = 'block';
                     document.getElementById('slide_image_placeholder').style.display = 'none';
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function previewMobileImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('slide_mobile_image_base64').value = e.target.result;
+                    document.getElementById('slide_mobile_image_preview').src = e.target.result;
+                    document.getElementById('slide_mobile_image_preview').style.display = 'block';
+                    document.getElementById('slide_mobile_image_placeholder').style.display = 'none';
                 };
                 reader.readAsDataURL(input.files[0]);
             }

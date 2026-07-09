@@ -6,8 +6,8 @@
 @section('content')
     {{-- Reusable Banner Partial --}}
     @include('frontend.partials.banner', [
-        'title' => "Sri Lanka's Pioneer Luxury Nursery & Kids Room Designers",
-        'bgImage' => 'https://images.unsplash.com/photo-1540932239986-30128078f3c5?auto=format&fit=crop&q=80&w=1600',
+        'title' => $settings['about_banner_title'] ?? "Sri Lanka's Pioneer Luxury Nursery & Kids Room Designers",
+        'bgImage' => !empty($settings['about_banner_image']) ? (str_starts_with($settings['about_banner_image'], 'http') ? $settings['about_banner_image'] : asset('storage/' . $settings['about_banner_image'])) : 'https://images.unsplash.com/photo-1540932239986-30128078f3c5?auto=format&fit=crop&q=80&w=1600',
         'breadcrumbs' => [
             ['label' => 'Home', 'url' => route('home')],
             ['label' => 'About Us']
@@ -23,15 +23,15 @@
                         <div class="row g-3">
                             <div class="col-6">
                                 <div class="image-box box-1 mb-3">
-                                    <img src="https://images.unsplash.com/photo-1596704017254-9b121068fb31?auto=format&fit=crop&q=80&w=800" class="img-fluid rounded-4 shadow-sm" alt="Bespoke Crib Design">
+                                    <img src="{{ !empty($settings['about_story_image1']) ? (str_starts_with($settings['about_story_image1'], 'http') ? $settings['about_story_image1'] : asset('storage/' . $settings['about_story_image1'])) : 'https://images.unsplash.com/photo-1596704017254-9b121068fb31?auto=format&fit=crop&q=80&w=800' }}" class="img-fluid rounded-4 shadow-sm" alt="Bespoke Crib Design">
                                 </div>
                                 <div class="image-box box-2">
-                                    <img src="https://images.unsplash.com/photo-1505691723518-36a5ac3be353?auto=format&fit=crop&q=80&w=800" class="img-fluid rounded-4 shadow-sm" alt="Nursery Textile Details">
+                                    <img src="{{ !empty($settings['about_story_image2']) ? (str_starts_with($settings['about_story_image2'], 'http') ? $settings['about_story_image2'] : asset('storage/' . $settings['about_story_image2'])) : 'https://images.unsplash.com/photo-1505691723518-36a5ac3be353?auto=format&fit=crop&q=80&w=800' }}" class="img-fluid rounded-4 shadow-sm" alt="Nursery Textile Details">
                                 </div>
                             </div>
                             <div class="col-6 pt-4">
                                 <div class="image-box box-3 mb-3">
-                                    <img src="https://images.unsplash.com/photo-1540932239986-30128078f3c5?auto=format&fit=crop&q=80&w=800" class="img-fluid rounded-4 shadow-sm" alt="Magic Lighting Motif">
+                                    <img src="{{ !empty($settings['about_story_image3']) ? (str_starts_with($settings['about_story_image3'], 'http') ? $settings['about_story_image3'] : asset('storage/' . $settings['about_story_image3'])) : 'https://images.unsplash.com/photo-1540932239986-30128078f3c5?auto=format&fit=crop&q=80&w=800' }}" class="img-fluid rounded-4 shadow-sm" alt="Magic Lighting Motif">
                                 </div>
                                 <div class="experience-card bg-primary text-white p-4 rounded-4 shadow-lg text-center position-relative overflow-hidden">
                                     <div class="shape-blob position-absolute bg-white opacity-10 rounded-circle shape-blob-about-story"></div>
@@ -44,16 +44,16 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="story-content-wrapper ps-lg-4">
-                        <span class="badge bg-primary bg-opacity-10 text-primary mb-3 px-3 py-2 rounded-pill fw-semibold">How It All Began</span>
-                        <h2 class="display-5 fw-bold text-dark mb-4">Crafting Magical Sanctuaries Since the Beginning</h2>
+                        <span class="badge bg-primary bg-opacity-10 text-primary mb-3 px-3 py-2 rounded-pill fw-semibold">{{ $settings['about_story_eyebrow'] ?? 'How It All Began' }}</span>
+                        <h2 class="display-5 fw-bold text-dark mb-4">{!! preg_replace('/##(.*?)##/', '<span class="text-primary">$1</span>', $settings['about_story_title'] ?? 'Crafting Magical Sanctuaries Since the Beginning') !!}</h2>
                         <p class="lead text-muted mb-4">
-                            Lumos was born out of a simple, heartfelt realization: every newborn deserves a safe, soothing, and incredibly magical environment to grow, play, and dream.
+                            {{ $settings['about_story_lead'] ?? 'Lumos was born out of a simple, heartfelt realization: every newborn deserves a safe, soothing, and incredibly magical environment to grow, play, and dream.' }}
                         </p>
                         <p class="text-secondary mb-4">
-                            As parents, we noticed a critical gap in Sri Lanka's interior landscape. While general house design was thriving, no studio focused strictly on the unique spatial psychology, non-toxic materials, and specialized developmental aesthetics of babies.
+                            {{ $settings['about_story_body1'] ?? "As parents, we noticed a critical gap in Sri Lanka's interior landscape. While general house design was thriving, no studio focused strictly on the unique spatial psychology, non-toxic materials, and specialized developmental aesthetics of babies." }}
                         </p>
                         <p class="text-secondary mb-5">
-                            We set out to change that. What started as a tiny team of designers and skilled carpenters crafting custom rounded cribs has blossomed into Sri Lanka's pioneer nursery design studio. Today, we handle full room transformations, custom furniture, safety lighting, and premium textiles—fusing ultimate safety with high-end luxury.
+                            {{ $settings['about_story_body2'] ?? "We set out to change that. What started as a tiny team of designers and skilled carpenters crafting custom rounded cribs has blossomed into Sri Lanka's pioneer nursery design studio. Today, we handle full room transformations, custom furniture, safety lighting, and premium textiles—fusing ultimate safety with high-end luxury." }}
                         </p>
                         
                         <div class="row g-4 border-top pt-4">
@@ -137,10 +137,10 @@
             <div class="card border-0 shadow-lg rounded-4 overflow-hidden bg-white">
                 <div class="row g-0">
                     <div class="col-lg-5 position-relative chairman-img-container">
-                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=800" class="position-absolute w-100 h-100 object-fit-cover" alt="Chairman, Lumos Studio">
+                        <img src="{{ !empty($settings['about_founder_image']) ? (str_starts_with($settings['about_founder_image'], 'http') ? $settings['about_founder_image'] : asset('storage/' . $settings['about_founder_image'])) : 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=800' }}" class="position-absolute w-100 h-100 object-fit-cover" alt="Chairman, Lumos Studio">
                         <div class="chairman-overlay position-absolute bottom-0 start-0 w-100 p-4 text-white text-shadow-sm d-flex flex-column justify-content-end chairman-overlay-bg">
-                            <h4 class="fw-bold mb-1">Eng. Janith Wijesinghe</h4>
-                            <p class="small mb-0 text-white-50 text-uppercase letter-spacing-1">Founder & Chairman, Lumos</p>
+                            <h4 class="fw-bold mb-1">{{ $settings['about_founder_sig_text'] ?? 'Eng. Janith Wijesinghe' }}</h4>
+                            <p class="small mb-0 text-white-50 text-uppercase letter-spacing-1">{{ $settings['about_founder_sig_lbl'] ?? 'Founder & Chairman, Lumos' }}</p>
                         </div>
                     </div>
                     <div class="col-lg-7 d-flex align-items-center">
@@ -151,7 +151,7 @@
                             <div class="quote-wrapper position-relative ps-4 border-start border-primary border-3 mb-4">
                                 <span class="quote-icon position-absolute top-0 start-0 translate-middle-x text-primary opacity-10 display-1 quote-icon-large">“</span>
                                 <p class="lead text-secondary italic mb-0">
-                                    "A baby's room is where life's first discoveries happen. We believe that it shouldn't just be safe or organized—it must be an artistic sanctuary that nurtures their imagination, dreams, and well-being. At Lumos, we don't merely manufacture furniture; we craft tiny dreams. Our absolute dedication is to deliver Sri Lanka's safest, most beautifully tailored rooms so parents can treasure every early milestone without compromise."
+                                    "{{ $settings['about_founder_quote'] ?? 'A baby\'s room is where life\'s first discoveries happen. We believe that it shouldn\'t just be safe or organized—it must be an artistic sanctuary that nurtures their imagination, dreams, and well-being. At Lumos, we don\'t merely manufacture furniture; we craft tiny dreams. Our absolute dedication is to deliver Sri Lanka\'s safest, most beautifully tailored rooms so parents can treasure every early milestone without compromise.' }}"
                                 </p>
                             </div>
                             
