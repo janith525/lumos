@@ -74,7 +74,7 @@ Route::get('/services/{slug}', [ProductServiceController::class, 'showService'])
 Route::get('/products/{slug}', [ProductServiceController::class, 'showProduct'])->name('products.show');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::view('dashboard', 'dashboard')->name('dashboard');
+    Route::redirect('dashboard', '/admin/dashboard')->name('dashboard');
 });
 
 Route::get('/clear', [SystemController::class, 'clear'])->name('system.clear');

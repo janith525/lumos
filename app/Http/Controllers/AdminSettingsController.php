@@ -136,22 +136,40 @@ class AdminSettingsController extends Controller
                 $imagePath = $slideData['image'] ?? '';
                 $mobileImagePath = $slideData['mobile_image'] ?? '';
 
-                // Handle base64 image upload
+                // Handle base64 or temporary upload token for desktop image
                 if (str_starts_with($imagePath, 'data:image')) {
                     $imageData = substr($imagePath, strpos($imagePath, ',') + 1);
                     $imageData = base64_decode($imageData);
                     $filename = 'hero/'.uniqid().'.jpg';
                     Storage::disk('public')->put($filename, $imageData);
                     $imagePath = Storage::url($filename);
+                } elseif (!empty($imagePath) && !str_contains($imagePath, '/') && !str_starts_with($imagePath, 'data:')) {
+                    $tempPath = UploadHelper::resolve($imagePath);
+                    if ($tempPath) {
+                        $filename = basename($tempPath);
+                        $newPath = 'hero/'.$filename;
+                        Storage::disk('public')->put($newPath, file_get_contents($tempPath));
+                        $imagePath = Storage::url($newPath);
+                        UploadHelper::cleanup($slideData['image']);
+                    }
                 }
 
-                // Handle base64 mobile image upload
+                // Handle base64 or temporary upload token for mobile image
                 if (str_starts_with($mobileImagePath, 'data:image')) {
                     $mobileImageData = substr($mobileImagePath, strpos($mobileImagePath, ',') + 1);
                     $mobileImageData = base64_decode($mobileImageData);
                     $mobileFilename = 'hero/'.uniqid().'_mobile.jpg';
                     Storage::disk('public')->put($mobileFilename, $mobileImageData);
                     $mobileImagePath = Storage::url($mobileFilename);
+                } elseif (!empty($mobileImagePath) && !str_contains($mobileImagePath, '/') && !str_starts_with($mobileImagePath, 'data:')) {
+                    $tempPath = UploadHelper::resolve($mobileImagePath);
+                    if ($tempPath) {
+                        $filename = basename($tempPath);
+                        $newPath = 'hero/'.$filename;
+                        Storage::disk('public')->put($newPath, file_get_contents($tempPath));
+                        $mobileImagePath = Storage::url($newPath);
+                        UploadHelper::cleanup($slideData['mobile_image']);
+                    }
                 }
 
                 $slide = HomeSlide::updateOrCreate(

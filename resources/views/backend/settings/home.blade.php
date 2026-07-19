@@ -428,26 +428,20 @@
                 <div class="row mt-3">
                     <div class="col-md-6 mb-3">
                         <label class="form-label text-blue fw-bold">Desktop Image (16:9)</label>
-                        <input type="file" id="slide_image_file" class="form-control bg-black text-white border-secondary mb-2" accept="image/*" onchange="previewDesktopImage(this)">
+                        <input type="file" id="slide_image_file" class="filepond-slide-desktop" accept="image/*">
                         <input type="hidden" id="slide_image_base64">
-                        <div class="position-relative mt-2" style="border-radius: 12px; overflow: hidden; border: 1px dashed rgba(59,130,246,0.3); background: rgba(0,0,0,0.2); min-height: 160px; display: flex; align-items: center; justify-content: center;">
-                            <img id="slide_image_preview" class="w-100" style="max-height: 150px; object-fit: contain; display: none;">
-                            <div id="slide_image_placeholder" class="text-center p-3 text-muted" style="font-size: 12px;">
-                                <span>No Desktop Image Selected</span><br>
-                                <span class="badge-ratio">Recommended 1920x1080 px</span>
-                            </div>
+                        <div id="slide_existing_desktop_container" class="mt-2 text-center" style="display: none;">
+                            <span class="text-muted small d-block mb-1" style="font-size: 11px;">Current Desktop Image:</span>
+                            <img id="slide_existing_desktop_preview" class="img-fluid rounded border border-secondary" style="max-height: 100px;">
                         </div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label class="form-label text-blue fw-bold">Mobile Image</label>
-                        <input type="file" id="slide_mobile_image_file" class="form-control bg-black text-white border-secondary mb-2" accept="image/*" onchange="previewMobileImage(this)">
+                        <input type="file" id="slide_mobile_image_file" class="filepond-slide-mobile" accept="image/*">
                         <input type="hidden" id="slide_mobile_image_base64">
-                        <div class="position-relative mt-2" style="border-radius: 12px; overflow: hidden; border: 1px dashed rgba(59,130,246,0.3); background: rgba(0,0,0,0.2); min-height: 160px; display: flex; align-items: center; justify-content: center;">
-                            <img id="slide_mobile_image_preview" class="w-100" style="max-height: 150px; object-fit: contain; display: none;">
-                            <div id="slide_mobile_image_placeholder" class="text-center p-3 text-muted" style="font-size: 12px;">
-                                <span>No Mobile Image Selected</span><br>
-                                <span class="badge-ratio">Recommended 800x1000 px</span>
-                            </div>
+                        <div id="slide_existing_mobile_container" class="mt-2 text-center" style="display: none;">
+                            <span class="text-muted small d-block mb-1" style="font-size: 11px;">Current Mobile Image:</span>
+                            <img id="slide_existing_mobile_preview" class="img-fluid rounded border border-secondary" style="max-height: 100px;">
                         </div>
                     </div>
                 </div>
@@ -465,6 +459,8 @@
     <script src="{{ asset('js/common-uploader.js') }}"></script>
     <script>
         let slidesData = [];
+        let pondDesktop = null;
+        let pondMobile = null;
 
         document.addEventListener('DOMContentLoaded', function() {
             FilePond.registerPlugin(FilePondPluginImagePreview);
@@ -484,6 +480,45 @@
                 window.initCommonUploader(ogHomeImg);
             }
 
+            // Initialize FilePonds for Carousel slides
+            const desktopInput = document.querySelector('.filepond-slide-desktop');
+            if (desktopInput) {
+                pondDesktop = window.initCommonUploader(desktopInput, {
+                    labelIdle: 'Drag & Drop Desktop Image or <span class="filepond--label-action">Browse</span>',
+                });
+                pondDesktop.on('addfile', () => {
+                    document.getElementById('slide_existing_desktop_container').style.display = 'none';
+                });
+                pondDesktop.on('removefile', () => {
+                    const index = parseInt(document.getElementById('slide_index').value);
+                    if (index !== -1 && slidesData[index] && slidesData[index].image) {
+                        const imgPath = slidesData[index].image;
+                        if (imgPath.includes('/') || imgPath.startsWith('http')) {
+                            document.getElementById('slide_existing_desktop_container').style.display = 'block';
+                        }
+                    }
+                });
+            }
+
+            const mobileInput = document.querySelector('.filepond-slide-mobile');
+            if (mobileInput) {
+                pondMobile = window.initCommonUploader(mobileInput, {
+                    labelIdle: 'Drag & Drop Mobile Image or <span class="filepond--label-action">Browse</span>',
+                });
+                pondMobile.on('addfile', () => {
+                    document.getElementById('slide_existing_mobile_container').style.display = 'none';
+                });
+                pondMobile.on('removefile', () => {
+                    const index = parseInt(document.getElementById('slide_index').value);
+                    if (index !== -1 && slidesData[index] && slidesData[index].mobile_image) {
+                        const imgPath = slidesData[index].mobile_image;
+                        if (imgPath.includes('/') || imgPath.startsWith('http')) {
+                            document.getElementById('slide_existing_mobile_container').style.display = 'block';
+                        }
+                    }
+                });
+            }
+
             try {
                 slidesData = JSON.parse(document.getElementById('slides_input').value || '[]');
             } catch (e) {
@@ -492,6 +527,15 @@
             }
             renderSlides();
         });
+
+        function getPondToken(pond) {
+            if (!pond) return null;
+            const files = pond.getFiles();
+            if (files.length > 0) {
+                return files[0].serverId || null;
+            }
+            return null;
+        }
 
         function renderSlides() {
             const container = document.getElementById('slides-container');
@@ -558,15 +602,14 @@
             document.getElementById('slide_button_text').value = '';
             document.getElementById('slide_button_link').value = '';
             
-            document.getElementById('slide_image_file').value = '';
             document.getElementById('slide_image_base64').value = '';
-            document.getElementById('slide_image_preview').style.display = 'none';
-            document.getElementById('slide_image_placeholder').style.display = 'block';
-
-            document.getElementById('slide_mobile_image_file').value = '';
             document.getElementById('slide_mobile_image_base64').value = '';
-            document.getElementById('slide_mobile_image_preview').style.display = 'none';
-            document.getElementById('slide_mobile_image_placeholder').style.display = 'block';
+
+            if (pondDesktop) pondDesktop.removeFiles();
+            if (pondMobile) pondMobile.removeFiles();
+
+            document.getElementById('slide_existing_desktop_container').style.display = 'none';
+            document.getElementById('slide_existing_mobile_container').style.display = 'none';
 
             document.getElementById('slideModalTitle').innerText = 'Add Slide';
             new bootstrap.Modal(document.getElementById('slideModal')).show();
@@ -583,28 +626,28 @@
             document.getElementById('slide_button_text').value = slide.button_text || '';
             document.getElementById('slide_button_link').value = slide.button_link || '';
 
-            document.getElementById('slide_image_file').value = '';
             document.getElementById('slide_image_base64').value = slide.image || '';
-
-            if (slide.image) {
-                document.getElementById('slide_image_preview').src = slide.image;
-                document.getElementById('slide_image_preview').style.display = 'block';
-                document.getElementById('slide_image_placeholder').style.display = 'none';
-            } else {
-                document.getElementById('slide_image_preview').style.display = 'none';
-                document.getElementById('slide_image_placeholder').style.display = 'block';
-            }
-
-            document.getElementById('slide_mobile_image_file').value = '';
             document.getElementById('slide_mobile_image_base64').value = slide.mobile_image || '';
 
-            if (slide.mobile_image) {
-                document.getElementById('slide_mobile_image_preview').src = slide.mobile_image;
-                document.getElementById('slide_mobile_image_preview').style.display = 'block';
-                document.getElementById('slide_mobile_image_placeholder').style.display = 'none';
+            if (pondDesktop) pondDesktop.removeFiles();
+            if (pondMobile) pondMobile.removeFiles();
+
+            const desktopContainer = document.getElementById('slide_existing_desktop_container');
+            const desktopPreview = document.getElementById('slide_existing_desktop_preview');
+            if (slide.image && (slide.image.includes('/') || slide.image.startsWith('http'))) {
+                desktopPreview.src = slide.image;
+                desktopContainer.style.display = 'block';
             } else {
-                document.getElementById('slide_mobile_image_preview').style.display = 'none';
-                document.getElementById('slide_mobile_image_placeholder').style.display = 'block';
+                desktopContainer.style.display = 'none';
+            }
+
+            const mobileContainer = document.getElementById('slide_existing_mobile_container');
+            const mobilePreview = document.getElementById('slide_existing_mobile_preview');
+            if (slide.mobile_image && (slide.mobile_image.includes('/') || slide.mobile_image.startsWith('http'))) {
+                mobilePreview.src = slide.mobile_image;
+                mobileContainer.style.display = 'block';
+            } else {
+                mobileContainer.style.display = 'none';
             }
 
             document.getElementById('slideModalTitle').innerText = 'Edit Slide';
@@ -612,6 +655,16 @@
         }
 
         function saveSlide() {
+            // Check if files are still uploading
+            if (pondDesktop && pondDesktop.getFiles().some(f => f.status === 2 || f.status === 3)) {
+                alert('Please wait for the Desktop image to finish uploading.');
+                return;
+            }
+            if (pondMobile && pondMobile.getFiles().some(f => f.status === 2 || f.status === 3)) {
+                alert('Please wait for the Mobile image to finish uploading.');
+                return;
+            }
+
             const index = parseInt(document.getElementById('slide_index').value);
             const id = document.getElementById('slide_id').value;
             const kicker = document.getElementById('slide_kicker').value;
@@ -619,8 +672,12 @@
             const subtext = document.getElementById('slide_subtext').value;
             const button_text = document.getElementById('slide_button_text').value;
             const button_link = document.getElementById('slide_button_link').value;
-            const image = document.getElementById('slide_image_base64').value;
-            const mobile_image = document.getElementById('slide_mobile_image_base64').value;
+
+            const desktopToken = getPondToken(pondDesktop);
+            const mobileToken = getPondToken(pondMobile);
+
+            const image = desktopToken || document.getElementById('slide_image_base64').value;
+            const mobile_image = mobileToken || document.getElementById('slide_mobile_image_base64').value;
 
             if (!image) {
                 alert('Slide Desktop image is required!');
@@ -664,32 +721,6 @@
                 slidesData[index] = slidesData[index + 1];
                 slidesData[index + 1] = temp;
                 renderSlides();
-            }
-        }
-
-        function previewDesktopImage(input) {
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    document.getElementById('slide_image_base64').value = e.target.result;
-                    document.getElementById('slide_image_preview').src = e.target.result;
-                    document.getElementById('slide_image_preview').style.display = 'block';
-                    document.getElementById('slide_image_placeholder').style.display = 'none';
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        function previewMobileImage(input) {
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    document.getElementById('slide_mobile_image_base64').value = e.target.result;
-                    document.getElementById('slide_mobile_image_preview').src = e.target.result;
-                    document.getElementById('slide_mobile_image_preview').style.display = 'block';
-                    document.getElementById('slide_mobile_image_placeholder').style.display = 'none';
-                };
-                reader.readAsDataURL(input.files[0]);
             }
         }
 

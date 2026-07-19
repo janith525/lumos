@@ -14,6 +14,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'backend.access' => \App\Http\Middleware\BackendAccess::class,
         ]);
+        $middleware->redirectTo(
+            guests: '/login',
+            users: '/admin/dashboard'
+        );
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
